@@ -3,228 +3,246 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>The Rugged Bar — Stylized Entrance</title>
+  <title>The Rugged Bar — Stylized Speakeasy Entrance</title>
   <style>
     :root {
-      --brick-bg: #150f0c;
-      --brick-red: #3a2218;
-      --brick-dark: #24140d;
-      --mortar: #090503;
-      --steel-base: #2e3542;
-      --steel-highlight: #4a5568;
-      --steel-shadow: #15181f;
-      --neon-gold: #ffbe0b;
-      --font: "SF Mono", "Fira Code", monospace;
+      --bg-night: #0b0c16;
+      --brick-red: #8b3a2b;
+      --brick-shadow: #4a1d15;
+      --mortar: #1f110e;
+      --door-metal: #3b4252;
+      --door-highlight: #4c566a;
+      --door-dark: #2e3440;
+      --hatch-metal: #434c5e;
+      --neon-gold: #ffb703;
+      --neon-cyan: #00f5d4;
       --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-      --smooth: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
 
     body, html {
       width: 100%; height: 100%;
-      background: var(--brick-bg);
+      background: var(--bg-night);
       overflow: hidden;
-      font-family: var(--font);
+      font-family: "SF Mono", "Fira Code", monospace;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    /* Stylized Brick Wall Background */
+    /* Cartoon Brick Wall Background with Arched Header Vibe */
     .brick-wall {
       position: fixed;
       inset: 0;
-      background-color: var(--brick-bg);
+      background-color: var(--brick-shadow);
       background-image: 
-        radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.8) 100%),
-        repeating-linear-gradient(0deg, var(--mortar), var(--mortar) 6px, var(--brick-red) 6px, var(--brick-red) 46px),
-        repeating-linear-gradient(90deg, var(--mortar), var(--mortar) 6px, transparent 6px, transparent 92px);
-      background-size: 100% 100%, 92px 52px, 92px 52px;
-      background-position: 0 0, 0 0, 46px 26px;
+        radial-gradient(circle at 50% 30%, rgba(255,183,3,0.12) 0%, transparent 70%),
+        repeating-linear-gradient(0deg, var(--mortar), var(--mortar) 6px, var(--brick-red) 6px, var(--brick-red) 42px),
+        repeating-linear-gradient(90deg, var(--mortar), var(--mortar) 6px, transparent 6px, transparent 84px);
+      background-size: 100% 100%, 84px 48px, 84px 48px;
+      background-position: 0 0, 0 0, 42px 24px;
       z-index: 1;
     }
 
-    .entrance-container {
+    .scene-container {
       position: relative;
       width: 100vw;
       height: 100vh;
       max-width: 440px;
-      max-height: 820px;
+      max-height: 850px;
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 2;
     }
 
-    /* Chunky Stylized Steel Door */
-    .steel-door {
+    /* Deep Recessed Doorway Frame */
+    .doorway-frame {
       position: relative;
-      width: 85%;
+      width: 86%;
       height: 88%;
-      background: linear-gradient(135deg, var(--steel-highlight), var(--steel-base) 40%, var(--steel-shadow));
-      border: 8px solid #0d1016;
-      border-radius: 24px;
-      box-shadow: 
-        0 25px 60px rgba(0,0,0,0.9),
-        inset 0 10px 20px rgba(255,255,255,0.1),
-        inset 0 -15px 30px rgba(0,0,0,0.7);
+      background: #1a0f0d;
+      border-radius: 20px 20px 8px 8px;
+      padding: 16px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Arched Header Shadow Effect */
+    .doorway-frame::before {
+      content: '';
+      position: absolute;
+      top: -16px; left: 10%; right: 10%;
+      height: 25px;
+      background: #2b1814;
+      border-radius: 50% 50% 0 0;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+    }
+
+    /* Heavy Steel Door */
+    .heavy-door {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--door-highlight), var(--door-metal) 40%, var(--door-dark));
+      border: 6px solid #1e222b;
+      border-radius: 14px;
+      box-shadow: inset 0 10px 25px rgba(255,255,255,0.08), inset 0 -15px 30px rgba(0,0,0,0.8);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 24px;
+      padding: 20px;
     }
 
-    /* Massive Industrial Hinges */
-    .hinge {
-      position: absolute;
-      left: -16px;
-      width: 20px;
-      height: 80px;
-      background: linear-gradient(90deg, #0d1016, #3a4454, #0d1016);
-      border-radius: 6px;
-      box-shadow: 3px 4px 10px rgba(0,0,0,0.6);
-    }
-    .hinge::before, .hinge::after {
-      content: '';
-      position: absolute;
-      left: 3px; right: 3px;
-      height: 8px;
-      background: #0d1016;
-      border-radius: 2px;
-    }
-    .hinge::before { top: 10px; }
-    .hinge::after { bottom: 10px; }
-    .hinge.top { top: 14%; }
-    .hinge.bottom { bottom: 14%; }
-
-    /* Heavy Bolted Rivets */
+    /* Industrial Rivets matching photo layout */
     .rivet {
       position: absolute;
-      width: 14px; height: 14px;
-      background: radial-gradient(circle at 35% 35%, #8892b0, #15181f);
+      width: 12px; height: 12px;
+      background: radial-gradient(circle at 35% 35%, #d8dee9, #2e3440);
       border-radius: 50%;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.8), inset 0 1px 2px rgba(255,255,255,0.4);
+      box-shadow: 0 3px 6px rgba(0,0,0,0.7);
     }
-    .r-tl { top: 16px; left: 16px; }
-    .r-tr { top: 16px; right: 16px; }
-    .r-bl { bottom: 16px; left: 16px; }
-    .r-br { bottom: 16px; right: 16px; }
+    .r-tl { top: 14px; left: 14px; }
+    .r-tr { top: 14px; right: 14px; }
+    .r-bl { bottom: 14px; left: 14px; }
+    .r-br { bottom: 14px; right: 14px; }
 
-    /* Peephole Slot Container */
-    .peephole-box {
+    /* Upper Patched Metal Plate (from photo reference) */
+    .metal-patch-top {
+      position: absolute;
+      top: 15%;
+      width: 45%;
+      height: 55px;
+      background: linear-gradient(145deg, #2e3440, #1e222b);
+      border: 2px solid #111418;
+      border-radius: 6px;
+      box-shadow: inset 0 2px 5px rgba(255,255,255,0.05), 0 4px 8px rgba(0,0,0,0.5);
+    }
+
+    /* Middle Sliding Hatch (Interactive) */
+    .hatch-box {
       position: relative;
-      width: 160px;
-      height: 110px;
-      background: #05070a;
-      border: 5px solid #11151c;
-      border-radius: 14px;
-      box-shadow: inset 0 12px 25px rgba(0,0,0,0.95);
+      width: 150px;
+      height: 90px;
+      background: #0d1017;
+      border: 5px solid #181d26;
+      border-radius: 8px;
+      box-shadow: inset 0 10px 20px rgba(0,0,0,0.9);
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
       overflow: hidden;
       transition: transform 0.15s ease;
+      margin-top: 20px;
     }
-    .peephole-box:active { transform: scale(0.97); }
+    .hatch-box:active { transform: scale(0.97); }
 
-    /* Sliding Metal Shutter with Chunky Handle */
+    /* Sliding Metal Shutter */
     .shutter {
       position: absolute;
       inset: 0;
-      background: linear-gradient(145deg, #424d5e, var(--steel-base) 50%, #1c222c);
-      border: 3px solid #0d1016;
-      border-radius: 10px;
+      background: linear-gradient(135deg, #4c566a, var(--hatch-metal) 50%, #2e3440);
+      border: 2px solid #181d26;
+      border-radius: 4px;
       z-index: 5;
-      transition: transform 0.5s var(--bounce);
+      transition: transform 0.45s var(--bounce);
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
     }
-    .shutter-handle {
-      width: 50px; height: 8px;
-      background: #0d1016;
-      border-radius: 4px;
-      box-shadow: inset 0 1px 2px rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.5);
+    .shutter-bar {
+      width: 45px; height: 6px;
+      background: #181d26;
+      border-radius: 3px;
     }
-
-    /* When opened, shutter slides away smoothly */
-    .peephole-box.open .shutter {
+    .hatch-box.open .shutter {
       transform: translateX(110%);
     }
 
-    /* Expressive Cartoon Eyes */
+    /* Expressive Cartoon Eyes inside the Hatch */
     .eyes-container {
       position: absolute;
       inset: 0;
-      background: #020305;
+      background: #05070a;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       z-index: 2;
       opacity: 0;
       transition: opacity 0.2s ease;
     }
-    .peephole-box.open .eyes-container {
+    .hatch-box.open .eyes-container {
       opacity: 1;
     }
 
     .eye {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       background: #fff;
       border-radius: 50%;
       position: relative;
-      box-shadow: 0 0 12px rgba(255,190,11,0.6), inset 0 3px 6px rgba(0,0,0,0.4);
-      overflow: hidden;
+      box-shadow: 0 0 12px rgba(0,245,212,0.7), inset 0 2px 4px rgba(0,0,0,0.4);
       border: 2px solid #111;
+      overflow: hidden;
     }
 
-    /* Bouncy Cartoon Eyes Sweeping Around */
+    /* Dynamic sweeping pupils */
     .pupil {
       position: absolute;
-      width: 14px;
-      height: 14px;
+      width: 12px; height: 12px;
       background: #111;
       border-radius: 50%;
-      top: 9px; left: 9px;
-      animation: cartoonSweep 2.8s infinite var(--smooth);
+      top: 8px; left: 8px;
+      animation: sweepEyes 2.6s infinite ease-in-out;
     }
     .pupil::after {
       content: '';
       position: absolute;
       top: 2px; left: 2px;
-      width: 4px; height: 4px;
+      width: 3px; height: 3px;
       background: #fff;
       border-radius: 50%;
     }
 
-    @keyframes cartoonSweep {
-      0%   { transform: translate(-6px, -2px); }
-      25%  { transform: translate(6px, 4px); }
-      50%  { transform: translate(-4px, 5px); }
-      75%  { transform: translate(5px, -4px); }
-      100% { transform: translate(-6px, -2px); }
+    @keyframes sweepEyes {
+      0%   { transform: translate(-5px, -2px); }
+      30%  { transform: translate(5px, 3px); }
+      60%  { transform: translate(-4px, 4px); }
+      100% { transform: translate(-5px, -2px); }
     }
 
-    /* Knock Text Prompt */
+    /* Lower Mail / Small Drop Slot (from reference photo) */
+    .mail-slot {
+      position: absolute;
+      bottom: 18%;
+      width: 50px; height: 32px;
+      background: #1e222b;
+      border: 3px solid #111418;
+      border-radius: 6px;
+      box-shadow: inset 0 4px 6px rgba(0,0,0,0.8);
+    }
+
+    /* Knock Prompt */
     .knock-instruction {
-      margin-top: 28px;
-      font-size: 0.78rem;
+      position: absolute;
+      bottom: 5%;
+      font-size: 0.75rem;
       color: var(--neon-gold);
       letter-spacing: 2px;
       text-transform: uppercase;
-      text-shadow: 0 0 12px rgba(255,190,11,0.5);
+      text-shadow: 0 0 10px rgba(255,183,3,0.5);
       animation: pulseText 2s infinite ease-in-out;
-      text-align: center;
     }
     @keyframes pulseText {
-      0%, 100% { opacity: 0.6; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.03); }
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
   </style>
 </head>
@@ -232,36 +250,39 @@
 
   <div class="brick-wall"></div>
 
-  <div class="entrance-container">
-    <div class="steel-door">
-      <div class="hinge top"></div>
-      <div class="hinge bottom"></div>
+  <div class="scene-container">
+    <div class="doorway-frame">
+      <div class="heavy-door">
+        <div class="rivet r-tl"></div>
+        <div class="rivet r-tr"></div>
+        <div class="rivet r-bl"></div>
+        <div class="rivet r-br"></div>
 
-      <div class="rivet r-tl"></div>
-      <div class="rivet r-tr"></div>
-      <div class="rivet r-bl"></div>
-      <div class="rivet r-br"></div>
+        <div class="metal-patch-top"></div>
 
-      <!-- Peephole & Sliding Shutter -->
-      <div class="peephole-box" id="peephole" onclick="knockDoor()" title="Tap to knock">
-        <div class="eyes-container">
-          <div class="eye"><div class="pupil"></div></div>
-          <div class="eye"><div class="pupil"></div></div>
+        <!-- Sliding Hatch with Eyes -->
+        <div class="hatch-box" id="hatchBox" onclick="knockHatch()" title="Tap hatch to knock">
+          <div class="eyes-container">
+            <div class="eye"><div class="pupil"></div></div>
+            <div class="eye"><div class="pupil"></div></div>
+          </div>
+          <div class="shutter" id="shutter">
+            <div class="shutter-bar"></div>
+          </div>
         </div>
-        <div class="shutter" id="shutter">
-          <div class="shutter-handle"></div>
-        </div>
+
+        <div class="mail-slot"></div>
+
+        <div class="knock-instruction" id="instructionText">⚡ Tap hatch to knock ⚡</div>
       </div>
-
-      <div class="knock-instruction" id="instructionText">⚡ Tap slot to knock ⚡</div>
     </div>
   </div>
 
   <script>
     let isOpen = false;
 
-    function knockDoor() {
-      const box = document.getElementById('peephole');
+    function knockHatch() {
+      const box = document.getElementById('hatchBox');
       const text = document.getElementById('instructionText');
 
       if (!isOpen) {
@@ -269,11 +290,10 @@
         isOpen = true;
         text.textContent = "👀 Someone's checking your vibe...";
 
-        // Automatically close after 4 seconds
         setTimeout(() => {
           box.classList.remove('open');
           isOpen = false;
-          text.textContent = "⚡ Tap slot to knock ⚡";
+          text.textContent = "⚡ Tap hatch to knock ⚡";
         }, 4200);
       }
     }
