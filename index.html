@@ -3,20 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-  <title>The Rugged Bar — Speakeasy</title>
+  <title>The Rugged Bar — Elite Speakeasy</title>
   <style>
     :root {
-      --bg: #06070c;
-      --brick: #7c3527;
-      --brick-d: #4a1c14;
-      --mortar: #160d0a;
-      --door1: #4f5a6e;
-      --door2: #3b4454;
-      --door3: #2a303c;
-      --metal: #1a1e26;
-      --gold: #ffb703;
-      --cyan: #00f5d4;
-      --pink: #ff006e;
+      --bg: #040508;
+      --brick: #6b2d20;
+      --brick-d: #38130d;
+      --mortar: #0d0604;
+      --door1: #3d4654;
+      --door2: #282f3b;
+      --door3: #1a1f29;
+      --neon-gold: #ffbe0b;
+      --neon-green: #00ff66;
+      --neon-cyan: #00f5d4;
       --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -26,255 +25,218 @@
       width: 100%; height: 100%;
       background: var(--bg);
       overflow: hidden;
-      font-family: "SF Mono", "Fira Code", "Courier New", monospace;
+      font-family: "SF Mono", "Fira Code", monospace;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    /* Brick wall */
+    /* Gritty Brick Wall */
     .wall {
       position: fixed; inset: 0; z-index: 0;
       background-color: var(--brick-d);
       background-image:
-        radial-gradient(ellipse 90% 55% at 50% 18%, rgba(255,183,3,0.08) 0%, transparent 65%),
-        radial-gradient(ellipse 70% 45% at 50% 85%, rgba(0,0,0,0.55) 0%, transparent 70%),
-        repeating-linear-gradient(0deg, var(--mortar) 0 5px, var(--brick) 5px 39px),
-        repeating-linear-gradient(90deg, var(--mortar) 0 5px, transparent 5px 78px);
-      background-size: 100% 100%, 100% 100%, 78px 44px, 78px 44px;
-      background-position: 0 0, 0 0, 0 0, 39px 22px;
+        radial-gradient(circle at 50% 20%, rgba(255,190,11,0.1) 0%, transparent 70%),
+        radial-gradient(circle at 50% 90%, rgba(0,0,0,0.8) 0%, transparent 60%),
+        repeating-linear-gradient(0deg, var(--mortar) 0 4px, var(--brick) 4px, var(--brick) 38px),
+        repeating-linear-gradient(90deg, var(--mortar) 0 4px, transparent 4px, transparent 76px);
+      background-size: 100% 100%, 100% 100%, 76px 42px, 76px 42px;
+      background-position: 0 0, 0 0, 0 0, 38px 21px;
     }
 
     .vignette {
       position: fixed; inset: 0; z-index: 20; pointer-events: none;
-      background: radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(0,0,0,0.72) 100%);
+      background: radial-gradient(circle at 50% 45%, transparent 30%, rgba(0,0,0,0.85) 100%);
     }
 
-    /* Rain canvas */
-    #rain {
-      position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.45;
+    #particles {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
     }
 
     .scene {
       position: relative;
       width: 100vw; height: 100vh;
-      max-width: 430px; max-height: 860px;
+      max-width: 420px; max-height: 840px;
       display: flex; flex-direction: column;
       justify-content: center; align-items: center;
-      z-index: 5; padding: 10px;
+      z-index: 5; padding: 12px;
     }
 
-    /* Neon */
+    /* Neon Title Header */
     .neon {
-      text-align: center; margin-bottom: 16px; z-index: 6;
+      text-align: center; margin-bottom: 14px; z-index: 6;
     }
     .neon h1 {
-      font-size: clamp(1.15rem, 4.8vw, 1.55rem);
-      font-weight: 700; letter-spacing: 0.2em;
-      color: var(--gold);
-      text-shadow: 0 0 7px var(--gold), 0 0 20px var(--gold), 0 0 40px rgba(255,183,3,0.35);
-      animation: flicker 5.2s infinite alternate;
+      font-size: 1.35rem; font-weight: 800; letter-spacing: 0.25em;
+      color: var(--neon-gold);
+      text-shadow: 0 0 10px var(--neon-gold), 0 0 30px rgba(255,190,11,0.4);
+      animation: flicker 4s infinite alternate;
     }
     .neon p {
-      font-size: 0.62rem; letter-spacing: 0.4em; color: var(--cyan);
-      margin-top: 5px; text-shadow: 0 0 10px var(--cyan); opacity: 0.9;
+      font-size: 0.6rem; letter-spacing: 0.35em; color: var(--neon-green);
+      margin-top: 4px; text-shadow: 0 0 10px var(--neon-green); opacity: 0.85;
     }
     @keyframes flicker {
-      0%,18%,20%,22%,24%,53%,55%,100% { opacity:1; }
-      19%,21%,23%,54% { opacity:0.7; text-shadow: 0 0 4px var(--gold), 0 0 10px var(--gold); }
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+      20%, 24%, 55% { opacity: 0.6; text-shadow: none; }
     }
 
-    /* Doorway */
+    /* Doorway Frame */
     .frame {
-      position: relative; width: 93%; height: 76%;
-      background: #110b09; border-radius: 18px 18px 10px 10px;
-      padding: 13px;
-      box-shadow: 0 28px 55px rgba(0,0,0,0.9), inset 0 0 45px rgba(0,0,0,0.75);
+      position: relative; width: 94%; height: 75%;
+      background: #080403; border-radius: 16px 16px 8px 8px;
+      padding: 12px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.95), inset 0 0 40px rgba(0,0,0,0.8);
       display: flex; justify-content: center; align-items: center;
     }
     .frame::before {
-      content:''; position:absolute; top:-13px; left:7%; right:7%; height:21px;
-      background:#1c110e; border-radius:50% 50% 0 0;
-      box-shadow: 0 -4px 14px rgba(0,0,0,0.55);
+      content: ''; position: absolute; top: -12px; left: 8%; right: 8%; height: 20px;
+      background: #140806; border-radius: 50% 50% 0 0;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.6);
     }
 
-    /* Door */
+    /* Steel Door */
     .door {
-      position: relative; width:100%; height:100%;
-      background: linear-gradient(148deg, var(--door1) 0%, var(--door2) 38%, var(--door3) 72%, #1c2028 100%);
-      border: 5px solid #13171d; border-radius: 12px;
-      box-shadow:
-        inset 0 14px 30px rgba(255,255,255,0.06),
-        inset 0 -20px 38px rgba(0,0,0,0.78),
-        0 0 0 1px rgba(255,255,255,0.03);
-      display:flex; flex-direction:column; align-items:center;
-      padding: 16px 14px; transition: transform 0.11s ease;
+      position: relative; width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--door1) 0%, var(--door2) 45%, var(--door3) 100%);
+      border: 5px solid #0f131a; border-radius: 10px;
+      box-shadow: inset 0 12px 25px rgba(255,255,255,0.08), inset 0 -20px 35px rgba(0,0,0,0.85);
+      display: flex; flex-direction: column; align-items: center;
+      padding: 20px 14px; transition: transform 0.1s ease;
     }
-    .door.shake { transform: translateY(4px) scale(0.988); }
+    .door.shake { transform: translateY(4px) scale(0.985); }
 
+    /* Rivets */
     .rivet {
-      position:absolute; width:11px; height:11px; border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, #e8ecf2, #3b4252 58%, #1a1e26);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.7), inset 0 1px 1px rgba(255,255,255,0.25);
+      position: absolute; width: 10px; height: 10px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, #4a5568 60%, #111);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.4);
     }
-    .r1{top:11px;left:11px} .r2{top:11px;right:11px}
-    .r3{bottom:11px;left:11px} .r4{bottom:11px;right:11px}
-    .r5{top:47%;left:11px} .r6{top:47%;right:11px}
+    .r1 { top: 10px; left: 10px; } .r2 { top: 10px; right: 10px; }
+    .r3 { bottom: 10px; left: 10px; } .r4 { bottom: 10px; right: 10px; }
 
+    /* Upper Plate */
     .plate {
-      position:absolute; top:9.5%; width:50%; height:46px;
-      background: linear-gradient(155deg,#2e3440,#181c23);
-      border:2px solid #0d1015; border-radius:5px;
-      box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 12px rgba(0,0,0,0.5);
-      display:flex; align-items:center; justify-content:center;
-      font-size:0.52rem; letter-spacing:0.18em; color:#8b9bb4; text-transform:uppercase;
+      position: absolute; top: 10%; width: 48%; height: 42px;
+      background: linear-gradient(145deg, #282f3b, #151922);
+      border: 2px solid #0a0d12; border-radius: 4px;
+      box-shadow: inset 0 2px 4px rgba(255,255,255,0.06), 0 4px 10px rgba(0,0,0,0.6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.5rem; letter-spacing: 0.2em; color: #7f8c8d; text-transform: uppercase;
     }
 
     /* Hatch */
     .hatch {
-      position:relative; width:150px; height:88px; margin-top:26px;
-      background:#05070b; border:5px solid #12161c; border-radius:7px;
-      box-shadow: inset 0 14px 28px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.025);
-      cursor:pointer; overflow:hidden; transition: transform 0.1s ease;
+      position: relative; width: 150px; height: 92px; margin-top: 24px;
+      background: #020305; border: 5px solid #0d1117; border-radius: 8px;
+      box-shadow: inset 0 12px 25px rgba(0,0,0,0.95);
+      cursor: pointer; overflow: hidden; transition: transform 0.1s ease;
     }
-    .hatch:active { transform: scale(0.955); }
+    .hatch:active { transform: scale(0.96); }
 
     .shutter {
-      position:absolute; inset:0; z-index:8;
-      background: linear-gradient(135deg, #5c677a 0%, #3d4658 48%, #2a303c 100%);
-      border:2px solid #10141a; border-radius:4px;
-      display:flex; align-items:center; justify-content:center;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.65);
-      transition: transform 0.55s var(--bounce);
-    }
-    .shutter::before {
-      content:''; position:absolute; inset:0; border-radius:3px; pointer-events:none;
-      background: repeating-linear-gradient(90deg, transparent 0 7px, rgba(0,0,0,0.13) 7px 8px);
+      position: absolute; inset: 0; z-index: 8;
+      background: linear-gradient(135deg, #4c566a, var(--door1) 50%, #1a1f29);
+      border: 2px solid #0d1117; border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.7);
+      transition: transform 0.45s var(--bounce);
     }
     .bar {
-      width:44px; height:5px; background:#0c0f14; border-radius:3px;
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.85);
+      width: 44px; height: 6px; background: #0a0d12; border-radius: 3px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
     }
-    .hatch.open .shutter { transform: translateX(115%); }
+    .hatch.open .shutter { transform: translateX(112%); }
 
+    /* Eyes */
     .eyes {
-      position:absolute; inset:0; background:#020305;
-      display:flex; justify-content:center; align-items:center; gap:17px;
-      z-index:4; opacity:0; transition: opacity 0.22s ease;
+      position: absolute; inset: 0; background: #010204;
+      display: flex; justify-content: center; align-items: center; gap: 16px;
+      z-index: 4; opacity: 0; transition: opacity 0.2s ease;
     }
-    .hatch.open .eyes { opacity:1; }
+    .hatch.open .eyes { opacity: 1; }
 
     .eye {
-      width:31px; height:31px; background:#f2f5f8; border-radius:50%;
-      position:relative; border:2px solid #080a0e; overflow:hidden;
-      box-shadow: 0 0 16px rgba(0,245,212,0.5), inset 0 3px 7px rgba(0,0,0,0.35);
+      width: 30px; height: 30px; background: #fff; border-radius: 50%;
+      position: relative; border: 2px solid #05070a; overflow: hidden;
+      box-shadow: 0 0 14px rgba(0,255,102,0.6), inset 0 3px 6px rgba(0,0,0,0.4);
     }
     .pupil {
-      position:absolute; width:13px; height:13px; background:#080a0e; border-radius:50%;
-      top:9px; left:9px; transition: transform 0.08s linear;
+      position: absolute; width: 12px; height: 12px; background: #05070a; border-radius: 50%;
+      top: 9px; left: 9px; transition: transform 0.05s linear;
     }
     .pupil::after {
-      content:''; position:absolute; top:2px; left:2.5px;
-      width:4px; height:4px; background:#fff; border-radius:50%;
-    }
-    .lid {
-      position:absolute; top:0; left:0; width:100%; height:0;
-      background:#080a0e; border-radius:50% 50% 0 0; z-index:2;
-      animation: blink 5.4s infinite;
-    }
-    @keyframes blink {
-      0%,91%,100% { height:0 }
-      93%,96% { height:100% }
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 3.5px; height: 3.5px; background: #fff; border-radius: 50%;
     }
 
-    .hatch.open::after {
-      content:''; position:absolute; inset:-28px; z-index:1; pointer-events:none;
-      background: radial-gradient(circle, rgba(0,245,212,0.14) 0%, transparent 68%);
-      animation: glow 1.7s ease-in-out infinite alternate;
-    }
-    @keyframes glow { from{opacity:0.55} to{opacity:1} }
-
+    /* Mail Slot & Handle */
     .slot {
-      position:absolute; bottom:14.5%; width:54px; height:27px;
-      background:#13171d; border:3px solid #0a0c10; border-radius:5px;
-      box-shadow: inset 0 5px 9px rgba(0,0,0,0.9), 0 2px 5px rgba(0,0,0,0.4);
+      position: absolute; bottom: 16%; width: 52px; height: 26px;
+      background: #11151c; border: 3px solid #080a0e; border-radius: 4px;
+      box-shadow: inset 0 4px 8px rgba(0,0,0,0.9);
     }
-    .slot::after {
-      content:''; position:absolute; top:6px; left:9px; right:9px; height:3.5px;
-      background:#07090c; border-radius:2px;
-    }
-
     .handle {
-      position:absolute; right:20px; top:51%;
-      width:13px; height:44px;
-      background: linear-gradient(90deg,#5c677a,#3b4454);
-      border-radius:4px;
-      box-shadow: 2px 3px 7px rgba(0,0,0,0.55), inset 1px 0 2px rgba(255,255,255,0.12);
-    }
-    .handle::before {
-      content:''; position:absolute; top:-7px; left:-4px; width:21px; height:11px;
-      background: linear-gradient(180deg,#6b7689,#3b4454); border-radius:3px;
+      position: absolute; right: 16px; top: 52%; width: 12px; height: 42px;
+      background: linear-gradient(90deg, #4c566a, #282f3b); border-radius: 3px;
+      box-shadow: 2px 3px 6px rgba(0,0,0,0.6);
     }
 
     .msg {
-      position:absolute; bottom:3.8%;
-      font-size:0.68rem; letter-spacing:0.11em; color:var(--gold);
-      text-transform:uppercase; text-shadow:0 0 14px rgba(255,183,3,0.4);
-      animation: pulse 2.1s ease-in-out infinite; transition: opacity 0.25s;
-      max-width:90%; text-align:center; line-height:1.35;
+      position: absolute; bottom: 4%;
+      font-size: 0.68rem; letter-spacing: 0.12em; color: var(--neon-gold);
+      text-transform: uppercase; text-shadow: 0 0 12px rgba(255,190,11,0.4);
+      animation: pulse 2s ease-in-out infinite; text-align: center;
     }
-    @keyframes pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+    @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-    /* Password overlay */
+    /* Password Overlay */
     .overlay {
-      position:absolute; inset:0; z-index:30;
-      background: rgba(4,5,9,0.82); backdrop-filter: blur(6px);
-      display:flex; flex-direction:column; justify-content:center; align-items:center;
-      opacity:0; pointer-events:none; transition: opacity 0.3s ease;
+      position: absolute; inset: 0; z-index: 30;
+      background: rgba(4,5,8,0.85); backdrop-filter: blur(8px);
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
-    .overlay.show { opacity:1; pointer-events:auto; }
-
+    .overlay.show { opacity: 1; pointer-events: auto; }
     .overlay h2 {
-      font-size:0.85rem; letter-spacing:0.2em; color:var(--cyan);
-      margin-bottom:18px; text-shadow:0 0 12px var(--cyan);
+      font-size: 0.85rem; letter-spacing: 0.25em; color: var(--neon-cyan);
+      margin-bottom: 16px; text-shadow: 0 0 10px var(--neon-cyan);
     }
     .overlay input {
-      background:#0c0f15; border:2px solid #2a303c; color:#e0e6f0;
-      font-family:inherit; font-size:1rem; letter-spacing:0.15em;
-      padding:12px 18px; border-radius:6px; width:200px; text-align:center;
-      outline:none; transition: border-color 0.2s;
+      background: #080b10; border: 2px solid #282f3b; color: #fff;
+      font-family: inherit; font-size: 1rem; letter-spacing: 0.2em;
+      padding: 12px 16px; border-radius: 6px; width: 190px; text-align: center;
+      outline: none; transition: border-color 0.2s;
     }
-    .overlay input:focus { border-color: var(--cyan); }
+    .overlay input:focus { border-color: var(--neon-cyan); }
     .overlay button {
-      margin-top:14px; background:transparent; border:1px solid var(--gold);
-      color:var(--gold); font-family:inherit; font-size:0.7rem; letter-spacing:0.15em;
-      padding:10px 22px; border-radius:4px; cursor:pointer; text-transform:uppercase;
+      margin-top: 14px; background: transparent; border: 1px solid var(--neon-gold);
+      color: var(--neon-gold); font-family: inherit; font-size: 0.7rem; letter-spacing: 0.15em;
+      padding: 10px 20px; border-radius: 4px; cursor: pointer; text-transform: uppercase;
       transition: background 0.2s, color 0.2s;
     }
-    .overlay button:hover, .overlay button:active {
-      background:var(--gold); color:#0a0c10;
-    }
+    .overlay button:hover { background: var(--neon-gold); color: #040508; }
     .overlay .hint {
-      margin-top:16px; font-size:0.55rem; color:#6b7689; letter-spacing:0.1em;
+      margin-top: 14px; font-size: 0.52rem; color: #4a5568; letter-spacing: 0.1em;
     }
 
     .success-glow {
-      position:absolute; inset:0; border-radius:12px; pointer-events:none;
-      box-shadow: inset 0 0 40px rgba(0,245,212,0.25);
-      opacity:0; transition: opacity 0.6s;
+      position: absolute; inset: 0; border-radius: 10px; pointer-events: none;
+      box-shadow: inset 0 0 50px rgba(0,255,102,0.3);
+      opacity: 0; transition: opacity 0.5s;
     }
-    .door.success .success-glow { opacity:1; }
+    .door.success .success-glow { opacity: 1; }
   </style>
 </head>
 <body>
   <div class="wall"></div>
-  <canvas id="rain"></canvas>
+  <canvas id="particles"></canvas>
   <div class="vignette"></div>
 
   <div class="scene">
     <div class="neon">
       <h1>THE RUGGED BAR</h1>
-      <p>SPEAKEASY · EST. 1923</p>
+      <p>MEMBERS DEGEN CLUB</p>
     </div>
 
     <div class="frame">
@@ -282,13 +244,12 @@
         <div class="success-glow"></div>
         <div class="rivet r1"></div><div class="rivet r2"></div>
         <div class="rivet r3"></div><div class="rivet r4"></div>
-        <div class="rivet r5"></div><div class="rivet r6"></div>
-        <div class="plate">Members Only</div>
+        <div class="plate">Restricted</div>
 
         <div class="hatch" id="hatch" title="Knock">
           <div class="eyes" id="eyes">
-            <div class="eye"><div class="lid"></div><div class="pupil" id="p1"></div></div>
-            <div class="eye"><div class="lid"></div><div class="pupil" id="p2"></div></div>
+            <div class="eye"><div class="pupil" id="p1"></div></div>
+            <div class="eye"><div class="pupil" id="p2"></div></div>
           </div>
           <div class="shutter"><div class="bar"></div></div>
         </div>
@@ -301,140 +262,117 @@
   </div>
 
   <div class="overlay" id="overlay">
-    <h2>PASSWORD</h2>
+    <h2>PASSWORD REQUIRED</h2>
     <input type="text" id="pass" placeholder="••••••••" autocomplete="off" spellcheck="false" />
-    <button id="submit">Enter</button>
-    <div class="hint">Hint: when the city sleeps</div>
+    <button id="submit">Enter Bar</button>
+    <div class="hint">Hint: when the clock hits zero</div>
   </div>
 
   <script>
-    // ---------- Rain ----------
-    const canvas = document.getElementById('rain');
+    // ---------- Ambient Particle / Dust System ----------
+    const canvas = document.getElementById('particles');
     const ctx = canvas.getContext('2d');
-    let w, h, drops = [];
+    let w, h, parts = [];
+
     function resize() {
       w = canvas.width = window.innerWidth;
       h = canvas.height = window.innerHeight;
-      drops = Array.from({length: Math.floor(w/14)}, () => ({
-        x: Math.random()*w, y: Math.random()*h, len: 8+Math.random()*14, speed: 4+Math.random()*7
+      parts = Array.from({length: Math.floor(w/25)}, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        size: 1 + Math.random() * 2,
+        speedY: 0.2 + Math.random() * 0.8,
+        speedX: -0.2 + Math.random() * 0.4,
+        alpha: 0.2 + Math.random() * 0.5
       }));
     }
     window.addEventListener('resize', resize); resize();
-    function rain() {
-      ctx.clearRect(0,0,w,h);
-      ctx.strokeStyle = 'rgba(180,200,220,0.35)';
-      ctx.lineWidth = 1;
-      drops.forEach(d => {
-        ctx.beginPath(); ctx.moveTo(d.x, d.y); ctx.lineTo(d.x, d.y+d.len); ctx.stroke();
-        d.y += d.speed;
-        if (d.y > h) { d.y = -20; d.x = Math.random()*w; }
-      });
-      requestAnimationFrame(rain);
-    }
-    rain();
 
-    // ---------- Audio (Web Audio) ----------
+    function animateParticles() {
+      ctx.clearRect(0, 0, w, h);
+      parts.forEach(p => {
+        ctx.fillStyle = `rgba(255, 190, 11, ${p.alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        p.y -= p.speedY;
+        p.x += p.speedX;
+        if (p.y < 0) { p.y = h; p.x = Math.random() * w; }
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // ---------- Web Audio Sound Effects ----------
     const AC = window.AudioContext || window.webkitAudioContext;
     let actx;
-    function ensureAudio() {
+    function playKnock() {
       if (!actx) actx = new AC();
       if (actx.state === 'suspended') actx.resume();
-    }
-    function knockSound() {
-      ensureAudio();
       const t = actx.currentTime;
       const o = actx.createOscillator();
       const g = actx.createGain();
       o.type = 'triangle';
-      o.frequency.setValueAtTime(90, t);
-      o.frequency.exponentialRampToValueAtTime(35, t+0.12);
-      g.gain.setValueAtTime(0.35, t);
-      g.gain.exponentialRampToValueAtTime(0.001, t+0.18);
+      o.frequency.setValueAtTime(100, t);
+      o.frequency.exponentialRampToValueAtTime(30, t+0.1);
+      g.gain.setValueAtTime(0.4, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t+0.15);
       o.connect(g); g.connect(actx.destination);
-      o.start(t); o.stop(t+0.2);
-
-      // second hit
-      const o2 = actx.createOscillator();
-      const g2 = actx.createGain();
-      o2.type = 'triangle';
-      o2.frequency.setValueAtTime(70, t+0.09);
-      o2.frequency.exponentialRampToValueAtTime(28, t+0.22);
-      g2.gain.setValueAtTime(0.22, t+0.09);
-      g2.gain.exponentialRampToValueAtTime(0.001, t+0.28);
-      o2.connect(g2); g2.connect(actx.destination);
-      o2.start(t+0.09); o2.stop(t+0.3);
-    }
-    function slideSound() {
-      ensureAudio();
-      const t = actx.currentTime;
-      const o = actx.createOscillator();
-      const g = actx.createGain();
-      o.type = 'sawtooth';
-      o.frequency.setValueAtTime(180, t);
-      o.frequency.linearRampToValueAtTime(60, t+0.35);
-      g.gain.setValueAtTime(0.06, t);
-      g.gain.exponentialRampToValueAtTime(0.001, t+0.4);
-      o.connect(g); g.connect(actx.destination);
-      o.start(t); o.stop(t+0.42);
+      o.start(t); o.stop(t+0.18);
     }
 
-    // ---------- State ----------
+    // ---------- State & Logic ----------
     let open = false, stage = 0, wrong = 0;
     const hatch = document.getElementById('hatch');
-    const door  = document.getElementById('door');
-    const msg   = document.getElementById('msg');
+    const door = document.getElementById('door');
+    const msg = document.getElementById('msg');
     const overlay = document.getElementById('overlay');
     const passInput = document.getElementById('pass');
     const p1 = document.getElementById('p1');
     const p2 = document.getElementById('p2');
 
-    const lines = [
-      "👀 Who goes there…?",
-      "👀 Checking your vibe…",
-      "👀 Password?",
-      "👀 Still waiting…",
-      "👀 Last chance."
+    const phrases = [
+      "👀 Who approaches?",
+      "👀 State your business...",
+      "👀 Password or beat it..."
     ];
 
-    // Eye tracking
-    function track(e) {
+    function trackEyes(e) {
       if (!open) return;
       const rect = hatch.getBoundingClientRect();
-      const cx = rect.left + rect.width/2;
-      const cy = rect.top + rect.height/2;
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
       const x = (e.clientX || e.touches?.[0]?.clientX || cx) - cx;
       const y = (e.clientY || e.touches?.[0]?.clientY || cy) - cy;
-      const max = 5.5;
-      const dx = Math.max(-max, Math.min(max, x * 0.06));
-      const dy = Math.max(-max, Math.min(max, y * 0.06));
+      const max = 5;
+      const dx = Math.max(-max, Math.min(max, x * 0.05));
+      const dy = Math.max(-max, Math.min(max, y * 0.05));
       p1.style.transform = `translate(${dx}px, ${dy}px)`;
       p2.style.transform = `translate(${dx}px, ${dy}px)`;
     }
-    window.addEventListener('mousemove', track);
-    window.addEventListener('touchmove', track, {passive:true});
+    window.addEventListener('mousemove', trackEyes);
+    window.addEventListener('touchmove', trackEyes, { passive: true });
 
-    function knock() {
+    function knockHatch() {
       if (open || overlay.classList.contains('show')) return;
-      ensureAudio();
-      knockSound();
+      playKnock();
       door.classList.add('shake');
       setTimeout(() => door.classList.remove('shake'), 120);
 
       stage++;
       open = true;
       hatch.classList.add('open');
-      slideSound();
 
       if (stage >= 3) {
-        msg.textContent = "👀 State the password…";
+        msg.textContent = "👀 Give me the password...";
         setTimeout(() => {
           overlay.classList.add('show');
           passInput.value = '';
           passInput.focus();
-        }, 900);
+        }, 800);
       } else {
-        msg.textContent = lines[Math.min(stage-1, lines.length-1)];
-        setTimeout(closeHatch, 3400);
+        msg.textContent = phrases[stage - 1];
+        setTimeout(closeHatch, 3200);
       }
     }
 
@@ -447,41 +385,38 @@
       }
     }
 
-    function submitPass() {
+    function checkPassword() {
       const val = passInput.value.trim().toLowerCase();
       overlay.classList.remove('show');
 
       if (val === 'midnight') {
-        msg.textContent = "✔ Come in. Stay quiet.";
+        msg.textContent = "✔ Access granted. Welcome inside.";
         door.classList.add('success');
         hatch.classList.add('open');
         open = true;
-        slideSound();
-        // keep open longer on success
+        
+        // HOOK FOR YOUR CLUBHOUSE: 
+        // Replace this timeout with code that hides this screen and loads v15.0!
         setTimeout(() => {
-          closeHatch();
-          door.classList.remove('success');
-          stage = 0; wrong = 0;
-          msg.textContent = "⚡ Tap hatch to knock ⚡";
-        }, 5200);
+          alert("Transitioning to The Rugged Bar v15.0 clubhouse...");
+        }, 1500);
       } else {
         wrong++;
         hatch.classList.add('open');
         open = true;
-        slideSound();
         if (wrong >= 3) {
-          msg.textContent = "✖ Beat it.";
-          setTimeout(() => { closeHatch(); stage = 0; wrong = 0; }, 2800);
+          msg.textContent = "✖ Get lost, scram.";
+          setTimeout(() => { closeHatch(); stage = 0; wrong = 0; }, 2500);
         } else {
-          msg.textContent = wrong === 1 ? "✖ Wrong. Try again." : "✖ Still wrong…";
-          setTimeout(closeHatch, 2600);
+          msg.textContent = "✖ Wrong password. Try again.";
+          setTimeout(closeHatch, 2500);
         }
       }
     }
 
-    hatch.addEventListener('click', knock);
-    document.getElementById('submit').addEventListener('click', submitPass);
-    passInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitPass(); });
+    hatch.addEventListener('click', knockHatch);
+    document.getElementById('submit').addEventListener('click', checkPassword);
+    passInput.addEventListener('keydown', e => { if (e.key === 'Enter') checkPassword(); });
   </script>
 </body>
 </html>
